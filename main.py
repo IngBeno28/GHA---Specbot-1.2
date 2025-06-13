@@ -23,7 +23,7 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embedding_model)
 
 # Load Mistral 7B (adjust this block if using HF Inference)
-model_id = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
+model_id = "mistralai/Mistral-7B-Instruct-v0.1"
 model = AutoModelForCausalLM.from_pretrained(model_id)
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
@@ -37,6 +37,16 @@ st.sidebar.title("⚙️ Settings")
 voice_enabled = st.sidebar.checkbox("🔊 Enable Voice Output", value=True)
 highlight_sources = st.sidebar.checkbox("📚 Show Source Highlights", value=True)
 max_tokens = st.sidebar.slider("✂️ Max Answer Length", min_value=128, max_value=1024, value=512, step=64)
+
+top_k_chunks = st.sidebar.slider(
+    "🧩 Number of Chunks to Retrieve",
+    min_value=1,
+    max_value=10,
+    value=3,
+    step=1
+)
+
+st.sidebar.caption("🔍 Higher values = more context, slower but smarter answers.")
 
 # Load LLM
 llm_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=max_tokens, temperature=0.2)
@@ -74,7 +84,7 @@ def speak_response(text):
 
 # --- Ask SpecBot ---
 def ask_specbot(query):
-    docs = vectorstore.similarity_search(query, k=3)
+    docs = vectorstore.similarity_search(query, k=k)
     answer = qa_chain.run(input_documents=docs, question=query)
     source_info = "\n\n📚 **Sources:**\n" + "\n".join([
         f"- *{doc.metadata.get('source', 'GHA Spec')}* — _\"{doc.page_content[:250].strip()}...\"_" for doc in docs
@@ -96,7 +106,7 @@ with col2:
 # --- Handle Input ---
 if user_input:
     with st.spinner("Thinking..."):
-        response, sources, docs = ask_specbot(user_input)
+        response, sources, docs = ask_specbot(user_input, k=top_k_chunks)
         st.success(response)
         if highlight_sources:
             st.markdown(sources)
