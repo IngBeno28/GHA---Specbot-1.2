@@ -2,7 +2,7 @@ streamlit>=1.32.0
 transformers>=4.38.0
 torch>=2.0.0
 langchain==0.1.20
-langchain-community==0.0.21
+langchain-community<0.1 and >=0.0.38
 langsmith==0.1.20
 sentence-transformers
 pydantic>=2.0
