@@ -7,7 +7,7 @@ from langchain_community.vectorstores import Chroma
 #from langchain.chains.question_answering import load_qa_chain
 #from langchain.chains import load_qa_with_sources_chain
 from langchain.chains import RetrievalQA
-from langchain_community.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferMemory
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 from langchain_community.llms import HuggingFacePipeline
 from fpdf import FPDF
