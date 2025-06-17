@@ -8,6 +8,7 @@ from fpdf import FPDF
 import datetime
 import tempfile
 import os
+os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 import speech_recognition as sr
 import pyttsx3
 import pandas as pd
