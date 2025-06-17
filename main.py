@@ -1,11 +1,6 @@
-# GHA SpecBot Pro Max - Full Streamlit App with Sidebar Settings and Usage Dashboard
-
 import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-#from langchain_community.chains.qa_with_sources import load_qa_with_sources_chain
-#from langchain.chains.question_answering import load_qa_chain
-#from langchain.chains import load_qa_with_sources_chain
 from langchain.chains import RetrievalQA
 from langchain.memory import ConversationBufferMemory
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
@@ -30,18 +25,25 @@ model_id = "mistralai/Mistral-7B-Instruct-v0.1"
 model = AutoModelForCausalLM.from_pretrained(model_id)
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-# ----Retrieval---
+# Load LLM
+max_tokens = 512
+llm_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=max_tokens, temperature=0.2)
+llm = HuggingFacePipeline(pipeline=llm_pipeline)
+
+# Retrieval Setup
+top_k_chunks = 3
+retriever = vectorstore.as_retriever(search_kwargs={"k": top_k_chunks})
 qa_chain = RetrievalQA.from_chain_type(
-    llm=your_llm,
-    chain_type="stuff",  # or "map_reduce", "refine"
-    retriever=your_retriever,
+    llm=llm,
+    chain_type="stuff",
+    retriever=retriever,
     return_source_documents=True
 )
 
 # --- Streamlit Config ---
 st.set_page_config(page_title="GHA SpecBot Pro Max", page_icon="🧱")
 st.title("🧱 GHA SpecBot Pro Max")
-st.markdown("Ask me anything about the 🇬🇭 Ghana Highway Authority Road & Bridge Specifications.")
+st.markdown("Ask me anything about the 🇼 Ghana Highway Authority Road & Bridge Specifications.")
 
 # --- Sidebar Settings ---
 st.sidebar.title("⚙️ Settings")
@@ -50,7 +52,7 @@ highlight_sources = st.sidebar.checkbox("📚 Show Source Highlights", value=Tru
 max_tokens = st.sidebar.slider("✂️ Max Answer Length", min_value=128, max_value=1024, value=512, step=64)
 
 top_k_chunks = st.sidebar.slider(
-    "🧩 Number of Chunks to Retrieve",
+    "🧹 Number of Chunks to Retrieve",
     min_value=1,
     max_value=10,
     value=3,
@@ -59,13 +61,8 @@ top_k_chunks = st.sidebar.slider(
 
 st.sidebar.caption("🔍 Higher values = more context, slower but smarter answers.")
 
-# Load LLM
-llm_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=max_tokens, temperature=0.2)
-llm = HuggingFacePipeline(pipeline=llm_pipeline)
-
-# Memory & QA Chain
+# Memory
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-qa_chain = load_qa_with_sources_chain(llm=llm, chain_type="stuff")
 
 # --- Session State Init ---
 if "chat" not in st.session_state:
@@ -95,8 +92,9 @@ def speak_response(text):
 
 # --- Ask SpecBot ---
 def ask_specbot(query):
-    docs = vectorstore.similarity_search(query, k=k)
-    answer = qa_chain.run(input_documents=docs, question=query)
+    result = qa_chain(query)
+    docs = result["source_documents"]
+    answer = result["result"]
     source_info = "\n\n📚 **Sources:**\n" + "\n".join([
         f"- *{doc.metadata.get('source', 'GHA Spec')}* — _\"{doc.page_content[:250].strip()}...\"_" for doc in docs
     ])
@@ -117,7 +115,7 @@ with col2:
 # --- Handle Input ---
 if user_input:
     with st.spinner("Thinking..."):
-        response, sources, docs = ask_specbot(user_input, k=top_k_chunks)
+        response, sources, docs = ask_specbot(user_input)
         st.success(response)
         if highlight_sources:
             st.markdown(sources)
@@ -140,7 +138,7 @@ if user_input:
 
 # --- Chat Log Display ---
 if st.session_state.chat:
-    st.subheader("📟 Chat Log")
+    st.subheader("📿 Chat Log")
     for i, turn in enumerate(st.session_state.chat):
         st.markdown(f"**Q{i+1}:** {turn['question']}")
         st.markdown(f"**A{i+1}:** {turn['answer']}")
@@ -164,7 +162,7 @@ def export_to_pdf(chat):
     pdf.output(temp_path)
     return temp_path
 
-if st.button("📅 Export Chat to PDF"):
+if st.button("🗕️ Export Chat to PDF"):
     pdf_file = export_to_pdf(st.session_state.chat)
     with open(pdf_file, "rb") as f:
         st.download_button(label="📄 Download Chat Log", data=f, file_name="GHA_SpecBot_Chat.pdf")
