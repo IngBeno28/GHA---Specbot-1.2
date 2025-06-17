@@ -4,7 +4,7 @@ import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 #from langchain_community.chains.qa_with_sources import load_qa_with_sources_chain
-from langchain_community.chains.question_answering import load_qa_chain
+from langchain.chains.question_answering import load_qa_chain
 #from langchain.chains import load_qa_with_sources_chain
 from langchain_community.memory import ConversationBufferMemory
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
