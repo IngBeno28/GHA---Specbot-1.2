@@ -4,8 +4,9 @@ import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 #from langchain_community.chains.qa_with_sources import load_qa_with_sources_chain
-from langchain.chains.question_answering import load_qa_chain
+#from langchain.chains.question_answering import load_qa_chain
 #from langchain.chains import load_qa_with_sources_chain
+from langchain.chains import RetrievalQA
 from langchain_community.memory import ConversationBufferMemory
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 from langchain_community.llms import HuggingFacePipeline
@@ -28,6 +29,14 @@ vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embedding
 model_id = "mistralai/Mistral-7B-Instruct-v0.1"
 model = AutoModelForCausalLM.from_pretrained(model_id)
 tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+# ----Retrieval---
+qa_chain = RetrievalQA.from_chain_type(
+    llm=your_llm,
+    chain_type="stuff",  # or "map_reduce", "refine"
+    retriever=your_retriever,
+    return_source_documents=True
+)
 
 # --- Streamlit Config ---
 st.set_page_config(page_title="GHA SpecBot Pro Max", page_icon="🧱")
