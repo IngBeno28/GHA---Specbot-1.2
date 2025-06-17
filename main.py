@@ -21,9 +21,11 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embedding_model)
 
 # Load Mistral 7B (adjust this block if using HF Inference)
+cache_path = "./models"
+os.makedirs(cache_path, exist_ok=True)
 model_id = "mistralai/Mistral-7B-Instruct-v0.1"
-model = AutoModelForCausalLM.from_pretrained(model_id)
-tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id, cache_dir="./models")
+tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="./models")
 
 # Load LLM
 max_tokens = 512
