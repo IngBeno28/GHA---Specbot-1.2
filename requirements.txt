@@ -6,16 +6,16 @@ fpdf==1.7.2
 SpeechRecognition==3.8.1
 pyttsx3==2.90
 altair==5.0.1
-pydantic-settings>=2.0.0
 chromadb>=0.4.0
 pydantic>=2.0
-#langchain==0.0.347  # last version with load_qa_with_sources_chain
-langsmith==0.1.0
 packaging>=23.2,<24
 pandas>=2.0.3,<3.0.0
 numpy>=1.26.4,<2.0.0
 pillow==10.0.0  # or another version with pre-built wheels
-langchain-community==0.0.29
-langchain==0.1.5
 langchain-core<0.2.0 and >=0.1.33
 langchain-community==0.0.29
+langchain==0.1.20
+langchain-community==0.0.21
+langsmith==0.1.20
+pydantic>=2.0
+pydantic-settings>=2.0
