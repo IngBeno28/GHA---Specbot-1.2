@@ -1,12 +1,12 @@
 # GHA SpecBot Pro Max - Full Streamlit App with Sidebar Settings and Usage Dashboard
 
 import streamlit as st
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.chains.qa_with_sources import load_qa_with_sources_chain
-from langchain.memory import ConversationBufferMemory
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_community.chains.qa_with_sources import load_qa_with_sources_chain
+from langchain_community.memory import ConversationBufferMemory
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
-from langchain.llms import HuggingFacePipeline
+from langchain_community.llms import HuggingFacePipeline
 from fpdf import FPDF
 import datetime
 import tempfile
