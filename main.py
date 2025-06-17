@@ -71,24 +71,32 @@ if "chat" not in st.session_state:
 
 # --- Voice Input ---
 def recognize_voice():
+    if st.runtime.exists_in_streamlit_cloud:
+        st.warning("🎤 Voice input is not supported in Streamlit Cloud.")
+        return ""
     r = sr.Recognizer()
-    with sr.Microphone() as source:
-        st.info("🎤 Listening... Speak now")
-        audio = r.listen(source, timeout=5)
     try:
+        with sr.Microphone() as source:
+            st.info("🎤 Listening... Speak now")
+            audio = r.listen(source, timeout=5)
         return r.recognize_google(audio)
     except sr.UnknownValueError:
         st.warning("Sorry, I couldn’t understand that.")
     except sr.RequestError:
         st.error("Voice service failed.")
-    return ""
+    except Exception
+
 
 # --- Text-to-Speech ---
 def speak_response(text):
-    if voice_enabled:
-        engine = pyttsx3.init()
-        engine.say(text)
-        engine.runAndWait()
+    if voice_enabled and not st.runtime.exists_in_streamlit_cloud:
+        try:
+            engine = pyttsx3.init()
+            engine.say(text)
+            engine.runAndWait()
+        except Exception as e:
+            st.warning(f"Text-to-speech not available in this environment: {e}")
+
 
 # --- Ask SpecBot ---
 def ask_specbot(query):
