@@ -1,19 +1,18 @@
-streamlit
-sentence-transformers
-transformers
-torch
-fpdf
-SpeechRecognition
-pyttsx3
-altair
-pydantic-settings
-chromadb
-pydantic
-langchain  # last version with load_qa_with_sources_chain
+streamlit>=1.26.0,<2.0.0
+sentence-transformers==2.2.2
+transformers==4.35.0
+torch>=2.0.1
+fpdf==1.7.2
+SpeechRecognition==3.8.1
+pyttsx3==2.90
+altair==5.0.1
+pydantic-settings>=2.0.0
+chromadb>=0.4.0
+pydantic>=2.0
+langchain==0.0.347  # last version with load_qa_with_sources_chain
 langsmith
-packaging
-pandas
-numpy
-pillow  # or another version with pre-built wheels
+packaging>=23.2,<24
+pandas>=2.0.3,<3.0.0
+numpy>=1.26.4,<2.0.0
+pillow==10.0.0  # or another version with pre-built wheels
 langchain-community==0.0.29
-
