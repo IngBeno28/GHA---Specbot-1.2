@@ -15,7 +15,5 @@ packaging
 pandas
 numpy
 pillow  # or another version with pre-built wheels
-langchain-community
-
-
+langchain-community==0.0.29
 
