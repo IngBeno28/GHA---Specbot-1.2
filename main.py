@@ -28,7 +28,7 @@ model = AutoModelForCausalLM.from_pretrained(model_id, cache_dir="./models")
 tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="./models")
 
 # Load LLM
-max_tokens = 512
+max_tokens = 300
 llm_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=max_tokens, temperature=0.2)
 llm = HuggingFacePipeline(pipeline=llm_pipeline)
 
