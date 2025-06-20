@@ -10,7 +10,7 @@ pydantic-settings>=2.0.0
 chromadb>=0.4.0
 pydantic>=2.0
 langchain==0.1.20
-langchain-community==0.0.21
+langchain-community
 langsmith==0.1.20
 packaging>=23.2
 pandas>=2.0.3
