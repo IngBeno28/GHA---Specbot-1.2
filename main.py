@@ -1,3 +1,5 @@
+import os
+os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -8,8 +10,6 @@ from langchain.chains import RetrievalQA  # Added missing import
 from fpdf import FPDF
 import datetime
 import tempfile
-import os
-os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 import speech_recognition as sr
 import pyttsx3
 import pandas as pd
