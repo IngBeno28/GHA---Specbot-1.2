@@ -43,9 +43,9 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 
 # --- Streamlit Config ---
-st.set_page_config(page_title="GHA SpecBot Pro Max", page_icon="🧱")
+st.set_page_config(page_title="GHA SpecBot", page_icon="🧱")
 st.title("🧱 GHA SpecBot Pro Max")
-st.markdown("Ask me anything about the 🇼 Ghana Highway Authority Road & Bridge Specifications.")
+st.markdown("Ask me anything about the Ghana Highway Authority Road & Bridge Specifications.")
 
 # --- Sidebar Settings ---
 st.sidebar.title("⚙️ Settings")
