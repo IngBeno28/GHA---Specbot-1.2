@@ -86,7 +86,9 @@ def recognize_voice():
         st.warning("Sorry, I couldn’t understand that.")
     except sr.RequestError:
         st.error("Voice service failed.")
-    #except Exception
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        
 
 
 # --- Text-to-Speech ---
