@@ -87,7 +87,7 @@ def recognize_voice():
     except sr.RequestError:
         st.error("Voice service failed.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+         st.error(f"Error occurred: {e}")
         
 
 
