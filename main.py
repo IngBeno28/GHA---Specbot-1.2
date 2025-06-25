@@ -28,7 +28,7 @@ vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embedding
 cache_path = "./models"
 os.makedirs(cache_path, exist_ok=True)
 model_id = "mistralai/Mistral-7B-Instruct-v0.1"
-model = AutoModelForCausalLM.from_pretrained(model_id, cache_dir="./models")
+model = AutoModelForCausalLM.from_pretrained(model_id, cache_dir="./models, token=True")
 tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="./models")
 
 # Load LLM
