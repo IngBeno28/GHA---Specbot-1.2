@@ -33,6 +33,5 @@ protobuf==3.20.3
 torch==2.3.0
 torchvision==0.18.0
 
-
-
-
+# Remove conflicting packages
+pysqlite3-binary==0.5.4
