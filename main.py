@@ -4,8 +4,6 @@ sys.modules["sqlite3"] = pysqlite3
 import os
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 import streamlit as st
-from huggingface_hub import login
-login(token="GHASPECBOT1")
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
