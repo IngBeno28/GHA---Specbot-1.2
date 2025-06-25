@@ -34,4 +34,3 @@ pysqlite3-binary==0.5.4
 torch==2.3.0
 torchvision==0.18.0
 triton==2.3.0
-
