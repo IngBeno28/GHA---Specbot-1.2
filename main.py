@@ -27,11 +27,11 @@ from pydantic_settings import BaseSettings
 # --- Secure Model Loading ---
 @st.cache_resource
 def load_llm():
-    """Load Mistral 7B with 4-bit quantization for memory efficiency"""
+    """Load Phi-3-mini (3.8B params) with 4-bit quantization"""
     cache_path = "./models"
     os.makedirs(cache_path, exist_ok=True)
     
-    # Quantization config (reduces VRAM usage by ~70%)
+    # Quantization config (reduces VRAM usage)
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
@@ -39,17 +39,19 @@ def load_llm():
     )
     
     try:
-        model_id = "mistralai/Mistral-7B-v0.1"  # Non-instruct version
+        model_id = "microsoft/phi-3-mini-4k-instruct"  # Open-access alternative
         
         tokenizer = AutoTokenizer.from_pretrained(
             model_id, 
-            cache_dir=cache_path
+            cache_dir=cache_path,
+            trust_remote_code=True  # Required for Phi-3
         )
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             cache_dir=cache_path,
             device_map="auto",
-            quantization_config=bnb_config
+            quantization_config=bnb_config,
+            trust_remote_code=True
         )
         
         return pipeline(
@@ -64,10 +66,10 @@ def load_llm():
         
     except Exception as e:
         st.error(f"""Failed to load model: {str(e)}\n\n
-                 Common issues:
-                 1. Insufficient GPU memory (try reducing quantization)
-                 2. Network connectivity problems
-                 3. Corrupted model cache (delete ./models folder)""")
+                 Common fixes:
+                 1. Try again later (HuggingFace may be busy)
+                 2. Check internet connection
+                 3. Delete and recreate ./models folder""")
         st.stop()
 
 # --- VectorStore Setup (Cached) ---
@@ -143,9 +145,12 @@ def ask_specbot(query):
     sanitized_query = query.strip()[:500]  # Prevent prompt injection
     
     try:
-        # Add instruction prefix for better responses from base model
-        instruction = "Answer the following question about Ghana Highway Authority specifications: "
-        full_query = instruction + sanitized_query
+        # Phi-3 responds better to this prompt format
+        instruction = """<|user|>
+        Answer precisely about Ghana Highway Authority specifications:
+        {query}<|end|>
+        <|assistant|>"""
+        full_query = instruction.format(query=sanitized_query)
         
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
