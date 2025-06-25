@@ -35,6 +35,3 @@ torch==2.3.0
 torchvision==0.18.0
 triton==2.3.0
 
-# Explicit exclusions to prevent conflicts
-PyFPDF==0 ; exclude
-pypdf==0 ; exclude
