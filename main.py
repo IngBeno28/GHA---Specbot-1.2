@@ -4,7 +4,7 @@ sys.modules["sqlite3"] = pysqlite3  # Must be before ANY other imports
 
 import os
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
-from dotenv import load_dotenv  # For secure token handling
+from dotenv import load_dotenv
 load_dotenv()
 
 import streamlit as st
@@ -26,7 +26,7 @@ from pydantic_settings import BaseSettings
 # --- Secure Model Loading ---
 @st.cache_resource
 def load_llm():
-    """Load Mistral with 4-bit quantization for memory efficiency"""
+    """Load Mistral 7B with 4-bit quantization for memory efficiency"""
     cache_path = "./models"
     os.makedirs(cache_path, exist_ok=True)
     
@@ -38,14 +38,17 @@ def load_llm():
     )
     
     try:
-        model_id = "mistralai/Mistral-7B-Instruct-v0.1"
-        tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir=cache_path)
+        model_id = "mistralai/Mistral-7B-v0.1"  # Non-instruct version
+        
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_id, 
+            cache_dir=cache_path
+        )
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             cache_dir=cache_path,
             device_map="auto",
-            quantization_config=bnb_config,
-            token=os.getenv("HF_TOKEN")  # Secure token from .env
+            quantization_config=bnb_config
         )
         
         return pipeline(
@@ -57,12 +60,13 @@ def load_llm():
             top_p=0.95,
             do_sample=True
         )
+        
     except Exception as e:
         st.error(f"""Failed to load model: {str(e)}\n\n
-                 Ensure you:
-                 1. Have Hugging Face access (huggingface-cli login)
-                 2. Approved for Mistral-7B-Instruct
-                 3. Have sufficient GPU memory""")
+                 Common issues:
+                 1. Insufficient GPU memory (try reducing quantization)
+                 2. Network connectivity problems
+                 3. Corrupted model cache (delete ./models folder)""")
         st.stop()
 
 # --- VectorStore Setup (Cached) ---
@@ -138,6 +142,10 @@ def ask_specbot(query):
     sanitized_query = query.strip()[:500]  # Prevent prompt injection
     
     try:
+        # Add instruction prefix for better responses from base model
+        instruction = "Answer the following question about Ghana Highway Authority specifications: "
+        full_query = instruction + sanitized_query
+        
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",
@@ -147,7 +155,7 @@ def ask_specbot(query):
             return_source_documents=True
         )
         
-        result = qa_chain({"query": sanitized_query})
+        result = qa_chain({"query": full_query})
         answer = result["result"].split("\n\nReferences:")[0]  # Clean output
         
         sources = []
