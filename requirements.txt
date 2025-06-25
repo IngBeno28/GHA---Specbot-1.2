@@ -28,10 +28,13 @@ tokenizers==0.19.1
 
 # System Dependencies
 protobuf==3.20.3
+pysqlite3-binary==0.5.4
 
 # Optional (for GPU support)
 torch==2.3.0
 torchvision==0.18.0
+triton==2.3.0
 
-# Remove conflicting packages
-pysqlite3-binary==0.5.4
+# Explicit exclusions to prevent conflicts
+PyFPDF==0 ; exclude
+pypdf==0 ; exclude
