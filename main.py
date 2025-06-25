@@ -1,8 +1,3 @@
-__import__('pysqlite3')
-import sys
-import pysqlite3
-sys.modules["sqlite3"] = pysqlite3  # Must be before ANY other imports
-
 import os
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 from dotenv import load_dotenv
