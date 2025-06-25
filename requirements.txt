@@ -1,24 +1,38 @@
-pysqlite3-binary>=0.5.2
-bitsandbytes
-streamlit>=1.45.0
-sentence-transformers==2.2.2
-transformers==4.35.0
-torch>=2.0.1
-fpdf==1.7.2
-SpeechRecognition==3.8.1
-pyttsx3==2.90
-altair==5.0.1
-pydantic-settings>=2.0.0
-chromadb>=0.4.0
-pydantic>=2.0
+# Core Libraries
+streamlit==1.46.0
 langchain==0.1.20
-langchain-community
-langsmith==0.1.20
-packaging>=23.2
-pandas>=2.0.3
-numpy>=1.26.4
-pillow==10.0.0
+langchain-community==0.0.38
+transformers==4.41.2  # Latest stable with Phi-3 support
+accelerate==0.30.1
+bitsandbytes==0.43.1  # For 4-bit quantization
+
+# Vector Database
+chromadb==0.5.0
+sentence-transformers==2.7.0
+
+# Voice Processing
+speechrecognition==3.10.0
+pyttsx3==2.90
+
+# PDF & Utilities
+fpdf2==2.7.7
+python-dotenv==1.0.1
+
+# Data Handling
+pandas==2.2.2
+altair==5.3.0
+
+# HuggingFace Libraries
+huggingface-hub==0.23.3
+tokenizers==0.19.1
+
+# System Dependencies
+pysqlite3-binary==0.5.4
 protobuf==3.20.3
+
+# Optional (for GPU support)
+torch==2.3.0
+torchvision==0.18.0
 
 
 
