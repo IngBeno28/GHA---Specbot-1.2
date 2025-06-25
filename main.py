@@ -1,3 +1,6 @@
+import sys
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
 import os
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 import streamlit as st
