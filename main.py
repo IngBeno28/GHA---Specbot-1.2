@@ -277,6 +277,9 @@ def speak_response(text):
 def ask_specbot(query):
     """Now uses the pre-authenticated token"""
     try:
+             # Sanitize the input query first
+        sanitized_query = query.strip()
+        
         formatted_query = f"""<|system|>
 You are a GHA specifications expert.<|end|>
 <|user|>
@@ -305,7 +308,7 @@ You are a GHA specifications expert.<|end|>
         with st.spinner("🔍 Analyzing GHA specifications..."):
             result = qa_chain({"query": formatted_query})
             
-        [...]  # Rest of your existing ask_specbot() function
+       
                 # Process answer
         raw_answer = result.get("result", "")
         
