@@ -24,7 +24,7 @@ import speech_recognition as sr
 import pyttsx3
 import pandas as pd
 import altair as alt
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 import torch
 import logging
 
