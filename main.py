@@ -94,7 +94,7 @@ def load_llm():
         pipe = pipeline(
             "text-generation",
             model=model,
-            device_map="auto,
+            device_map="auto",
             tokenizer=tokenizer,
             max_new_tokens=512,
             temperature=0.2,
