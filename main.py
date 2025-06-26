@@ -2,7 +2,8 @@ import os
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 from dotenv import load_dotenv
 load_dotenv()
-
+from huggingface_hub import login
+login(token="your_hf_token") 
 import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
