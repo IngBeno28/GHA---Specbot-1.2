@@ -626,5 +626,4 @@ st.markdown("""
 
 # --- New Auth Status Indicator ---
 with st.sidebar:
-    [... your existing sidebar code ...]
     st.caption(f"🔒 Auth Status: {'✅' if HF_TOKEN else '❌'} Hugging Face")
