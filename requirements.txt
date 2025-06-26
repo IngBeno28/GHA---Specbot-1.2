@@ -1,11 +1,13 @@
 # Core Libraries
 streamlit==1.46.0
+torch==2.3.0
+flash_attn==2.5.8
 langchain==0.1.20
 langchain-community==0.0.38
 transformers==4.41.2
 accelerate==0.30.1
 bitsandbytes==0.43.1
-#flash_attn==2.5.8
+
 
 # Vector Database
 chromadb==0.5.0
@@ -33,6 +35,5 @@ pysqlite3-binary==0.5.4
 pydantic-settings==2.0.3  
 
 # Optional (for GPU support)
-torch==2.3.0
 torchvision==0.18.0
 triton==2.3.0
