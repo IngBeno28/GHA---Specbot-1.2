@@ -1,6 +1,6 @@
 # Core Libraries
 torch==2.3.0
-flash-attn==2.5.8--no-build-isolation:
+flash-attn==2.5.8 --no-build-isolation:
 streamlit==1.46.0
 langchain==0.1.20
 langchain-community==0.0.38
@@ -37,3 +37,6 @@ pydantic-settings==2.0.3
 # Optional (for GPU support)
 torchvision==0.18.0
 triton==2.3.0
+
+
+
