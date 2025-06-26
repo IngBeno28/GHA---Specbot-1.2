@@ -29,6 +29,7 @@ tokenizers==0.19.1
 # System Dependencies
 protobuf==3.20.3
 pysqlite3-binary==0.5.4
+pydantic-settings==2.0.3  
 
 # Optional (for GPU support)
 torch==2.3.0
