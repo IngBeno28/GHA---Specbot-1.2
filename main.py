@@ -118,9 +118,7 @@ def load_llm():
         3. Ensure required packages are installed
         """)
         st.stop()
-
-
-# --- Enhanced VectorStore Setup ---
+        
 @st.cache_resource
 def load_vectorstore():
     """Load vectorstore with better error handling and configuration"""
