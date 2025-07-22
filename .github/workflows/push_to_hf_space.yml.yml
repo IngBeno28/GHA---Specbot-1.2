@@ -1,4 +1,4 @@
-name: Sync with Hugging Face Hub
+name: Deploy to Hugging Face Spaces
 
 on:
   push:
@@ -6,14 +6,23 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Sync with Hugging Face
-      uses: nateraw/huggingface-sync-action@v0.0.4
-      with:
-        github_repo_id: IngBeno28/GHA--Specbot-1.2
-        huggingface_repo_id: Beno28/GHASpecbot1.0
-        repo_type: space
-        space_sdk: streamlit
-        hf_token: ${{ secrets.HF_TOKEN }}
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "wiafe1713@gmail.com"
+          git config --global user.name "Beno28"
+          
+          git clone https://huggingface.co/spaces/IngBeno28/GHA---Specbot-1.2 hf_space
+          cp -r * hf_space/
+          cd hf_space
+          
+          git add .
+          git commit -m "Deploying to Hugging Face"
+          git push https://Beno28:$HF_TOKEN@huggingface.co/spaces/Beno28/GHASpecbot1.0 main
