@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -19,13 +20,10 @@ jobs:
           git config --global user.email "wiafe1713@gmail.com"
           git config --global user.name "Beno28"
           
-          git clone https://huggingface.co/spaces/IngBeno28/GHA---Specbot-1.2 hf_space
+          git clone https://Beno28:$HF_TOKEN@huggingface.co/spaces/Beno28/GHASpecbot1.0 hf_space
           cp -r * hf_space/
           cd hf_space
           
           git add .
-          git commit -m "Deploying to Hugging Face"
-          git push https://Beno28:$HF_TOKEN@huggingface.co/spaces/Beno28/GHASpecbot1.0 main
-
-        
-
+          git commit -m "Deploying to Hugging Face" || echo "Nothing to commit"
+          git push origin main
