@@ -24,7 +24,8 @@ jobs:
           git clone https://huggingface.co/spaces/Beno28/GHASpecbot1.0 hf_space
 
           echo "📦 Copying files to Hugging Face repo..."
-          cp -r * hf_space/
+          shopt -s extglob
+          cp -r !(hf_space) hf_space/
           cp -r .streamlit hf_space/ || true  # In case you use .streamlit folder
           cd hf_space
 
